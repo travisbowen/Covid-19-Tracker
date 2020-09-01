@@ -13,6 +13,16 @@ import Map from "./components/Map";
 function App() {
 	const [countries, setCountries] = useState([]);
 	const [country, setCountry] = useState("worldwide");
+	const [countryInfo, setCountryInfo] = useState({});
+
+	// Runs only once to get default world wide covid info
+	useEffect(() => {
+		fetch("https://disease.sh/v3/covid-19/all")
+			.then((response) => response.json())
+			.then((data) => {
+				setCountryInfo(data);
+			});
+	}, []);
 
 	// Runs only once because array is empty in use effect
 	useEffect(() => {
@@ -30,8 +40,18 @@ function App() {
 		getCountriesData();
 	}, []);
 
-	const onCountryChange = (event) => {
+	const onCountryChange = async (event) => {
 		setCountry(event.target.value);
+		const url =
+			country === "worldwide"
+				? "https://disease.sh/v3/covid-19/all"
+				: `https://disease.sh/v3/covid-19/countries/${country}`;
+
+		await fetch(url)
+			.then((response) => response.json())
+			.then((data) => {
+				setCountryInfo(data);
+			});
 	};
 
 	return (
@@ -56,9 +76,21 @@ function App() {
 
 				<div className='app__stats'>
 					{/* InfoBoxes */}
-					<InfoBox title='Coronavirus Cases' total={1000} cases={1000} />
-					<InfoBox title='Recovered' total={1000} cases={1000} />
-					<InfoBox title='Deaths' total={1000} cases={1000} />
+					<InfoBox
+						title='Coronavirus Cases'
+						cases={countryInfo.todayCases}
+						total={countryInfo.cases}
+					/>
+					<InfoBox
+						title='Recovered'
+						cases={countryInfo.todayRecovered}
+						total={countryInfo.recovered}
+					/>
+					<InfoBox
+						title='Deaths'
+						cases={countryInfo.todayDeaths}
+						total={countryInfo.deaths}
+					/>
 				</div>
 
 				{/* Map */}
