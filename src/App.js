@@ -11,12 +11,14 @@ import InfoBox from "./components/InfoBox";
 import Map from "./components/Map";
 import Table from "./components/Table";
 import { sortData } from "./utils/utils";
+import LineGraph from "./components/LineGraph";
 
 function App() {
 	const [countries, setCountries] = useState([]);
 	const [country, setCountry] = useState("worldwide");
 	const [countryInfo, setCountryInfo] = useState({});
 	const [tableData, setTableData] = useState([]);
+	const [casesType, setCasesType] = useState("cases");
 
 	// Runs only once to get default world wide covid info
 	useEffect(() => {
@@ -108,6 +110,7 @@ function App() {
 					<Table countries={tableData} />
 					{/* Graph */}
 					<h3>Worldwide New Cases</h3>
+					<LineGraph casesType={casesType} />
 				</CardContent>
 			</Card>
 		</div>
