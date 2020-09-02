@@ -9,6 +9,7 @@ body {
 .app {
 	display: flex;
 	justify-content: space-evenly;
+	padding: 20px;
 }
 
 .app__header {
