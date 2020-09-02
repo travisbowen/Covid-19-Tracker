@@ -9,11 +9,14 @@ import {
 import "./App.css";
 import InfoBox from "./components/InfoBox";
 import Map from "./components/Map";
+import Table from "./components/Table";
+import { sortData } from "./utils/utils";
 
 function App() {
 	const [countries, setCountries] = useState([]);
 	const [country, setCountry] = useState("worldwide");
 	const [countryInfo, setCountryInfo] = useState({});
+	const [tableData, setTableData] = useState([]);
 
 	// Runs only once to get default world wide covid info
 	useEffect(() => {
@@ -34,6 +37,8 @@ function App() {
 						name: country.country,
 						value: country.countryInfo.iso2,
 					}));
+					const sortedData = sortData(data);
+					setTableData(sortedData);
 					setCountries(countries);
 				});
 		};
@@ -100,6 +105,7 @@ function App() {
 				<CardContent>
 					{/* Table */}
 					<h3>Live Cases by Country</h3>
+					<Table countries={tableData} />
 					{/* Graph */}
 					<h3>Worldwide New Cases</h3>
 				</CardContent>
