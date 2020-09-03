@@ -5,3 +5,8 @@ export const sortData = (data) => {
 		return b.cases - a.cases;
 	});
 };
+
+// Draw circles on the map with interactive tooltip
+// export const showDataOnMap = (data, caseType = "cases") => (
+// 	data.map(country)
+// );

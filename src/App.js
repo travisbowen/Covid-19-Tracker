@@ -21,6 +21,7 @@ function App() {
 	const [casesType, setCasesType] = useState("cases");
 	const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
 	const [mapZoom, setMapZoom] = useState(3);
+	const [mapCountries, setMapCountries] = useState([]);
 
 	// Runs only once to get default world wide covid info
 	useEffect(() => {
@@ -43,6 +44,7 @@ function App() {
 					}));
 					const sortedData = sortData(data);
 					setTableData(sortedData);
+					setMapCountries(data);
 					setCountries(countries);
 				});
 		};
@@ -61,8 +63,13 @@ function App() {
 			.then((data) => {
 				setCountry(countryCode);
 				setCountryInfo(data);
-				setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-				setMapZoom(4);
+				if (countryCode === "worldwide") {
+					setMapCenter([34.80746, -40.4796]);
+					setMapZoom(3);
+				} else {
+					setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+					setMapZoom(4);
+				}
 			});
 	};
 
@@ -106,7 +113,7 @@ function App() {
 				</div>
 
 				{/* Map */}
-				<Map center={mapCenter} zoom={mapZoom} />
+				<Map center={mapCenter} zoom={mapZoom} countries={mapCountries} />
 			</div>
 			<Card className='app__right'>
 				<CardContent>

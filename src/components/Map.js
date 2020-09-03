@@ -2,7 +2,7 @@ import React from "react";
 import "./Map.css";
 import GoogleMapReact from "google-map-react";
 
-function Map({ center, zoom }) {
+function Map({ center, zoom, countries }) {
 	return (
 		<div className='map'>
 			<GoogleMapReact
